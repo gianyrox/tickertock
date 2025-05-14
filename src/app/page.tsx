@@ -221,6 +221,26 @@ export default function Home() {
           </div>
           
           <button
+            onClick={exportToCSV}
+            disabled={exportLoading || tickers.length === 0}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 12px',
+              backgroundColor: 'var(--primary-color)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              fontSize: '14px',
+              cursor: tickers.length === 0 ? 'not-allowed' : 'pointer',
+              opacity: tickers.length === 0 ? 0.6 : 1
+            }}
+          >
+            {exportLoading ? 'Exporting...' : 'Export CSV'}
+          </button>
+          
+          <button
             onClick={() => setIsApiKeyModalOpen(true)}
             style={{
               display: 'flex',
