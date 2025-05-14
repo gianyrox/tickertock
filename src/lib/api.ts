@@ -1,9 +1,8 @@
 // Alpha Vantage API client
-import { ALPHA_VANTAGE_API_KEY, ALPHA_VANTAGE_BASE_URL } from './config';
 
 // API constants
-const API_KEY = ALPHA_VANTAGE_API_KEY;
-const BASE_URL = ALPHA_VANTAGE_BASE_URL;
+const API_KEY = process.env.ALPHAVANTAGE_API_KEY;
+const BASE_URL = process.env.ALPHAVANTAGE_BASE_URL;
 
 export interface StockData {
   // Core data (always available)
