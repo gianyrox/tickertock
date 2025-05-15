@@ -145,6 +145,9 @@ export async function getHistoricalData(symbol: string, timeRange: string): Prom
       case '1Y':
         fromDate.setFullYear(toDate.getFullYear() - 1);
         break;
+      case 'All Time':
+        fromDate.setFullYear(toDate.getFullYear() - 5); // 5 years as a reasonable "All Time" view
+        break;
       default:
         fromDate.setMonth(toDate.getMonth() - 1);
     }
@@ -185,9 +188,21 @@ export async function getHistoricalData(symbol: string, timeRange: string): Prom
         });
       }
     } else {
-      // For other time ranges, generate daily/weekly points
+      // For other time ranges, generate daily/weekly/monthly points based on the timeframe
       while (currentDate <= endDate) {
-        const daysBetween = (timeRange === '1Y' || timeRange === '3M') ? 7 : 1;
+        // Determine the interval between points based on the time range
+        let interval = 1; // Default to daily points
+        
+        if (timeRange === '1Y') {
+          interval = 7; // Weekly points for 1 year
+        } else if (timeRange === '3M') {
+          interval = 3; // Every 3 days for 3 months
+        } else if (timeRange === 'All Time') {
+          // For "All Time" (5 years), use monthly points
+          const currentMonth = currentDate.getMonth();
+          currentDate.setMonth(currentMonth + 1);
+          interval = 0; // We'll increment the date differently
+        }
         
         // Random price fluctuation that builds on previous point
         const prevPrice = dataPoints.length > 0 
@@ -203,7 +218,10 @@ export async function getHistoricalData(symbol: string, timeRange: string): Prom
         });
         
         // Move to next date
-        currentDate.setDate(currentDate.getDate() + daysBetween);
+        if (timeRange !== 'All Time') {
+          currentDate.setDate(currentDate.getDate() + interval);
+        }
+        // For "All Time", we already incremented by month in the condition above
       }
     }
     

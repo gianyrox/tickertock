@@ -8,7 +8,7 @@ import { getQuote, calculatePriceChanges, StockData } from '@/lib/finnhub';
 import { updateApiKey, getApiKey, FINNHUB_API_KEY } from '@/lib/config';
 
 // Time range options for percent changes
-const TIME_RANGES = ['1D', '1W', '1M', '3M', '1Y'];
+const TIME_RANGES = ['1D', '1W', '1M', '3M', '1Y', 'All Time'];
 
 export default function Home() {
   const [tickers, setTickers] = useState<string[]>([]);
@@ -201,7 +201,7 @@ export default function Home() {
                   key={range}
                   onClick={() => handleTimeRangeChange(range)}
                   style={{
-                    padding: '6px 12px',
+                    padding: '6px 8px',
                     border: 'none',
                     backgroundColor: timeRange === range 
                       ? 'var(--primary-color)' 
@@ -210,7 +210,7 @@ export default function Home() {
                       ? 'white' 
                       : 'var(--dark-gray)',
                     cursor: 'pointer',
-                    fontSize: '14px',
+                    fontSize: '13px',
                     fontWeight: 'bold'
                   }}
                 >
